@@ -15,6 +15,43 @@ import javax.swing.JOptionPane;
 
 public class Functions {
     
+    public boolean registerValidate(String id) throws ClassNotFoundException, SQLException{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:8889/dbs","kmiz","12345");
+            String sql = "SELECT * FROM users WHERE userId=?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, id);
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                return false;
+            }
+            return true;
+    }
+    
+    public void register(String id, String password, String lName, String fName) throws SQLException, ClassNotFoundException{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:8889/dbs","kmiz","12345");
+            String sql = "INSERT INTO users(userId, userPass, userLName, userFName) VALUES(?,?,?,?)";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, id);
+            statement.setString(2, password);
+            statement.setString(3, lName);
+            statement.setString(4, fName);
+            
+            statement.executeUpdate();
+            conn.close();
+        
+    }
+    
+    public boolean isNumeric(String value){
+       try{
+        double d = Double.parseDouble(value);
+       }catch(NumberFormatException e){
+           return false;
+         }
+       return true;
+    }
+    
     public User validate(String id, String pass) throws SQLException, ClassNotFoundException{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:8889/dbs","kmiz","12345");
@@ -55,8 +92,8 @@ public class Functions {
             String sql = "UPDATE products SET prodName=?, prodBrand=?, prodPrice=? WHERE prodId = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, name);
-            statement.setString(2, price);
-            statement.setString(3, brand);
+            statement.setString(2, brand);
+            statement.setString(3, price);
             statement.setString(4, id);
             
             statement.executeUpdate();

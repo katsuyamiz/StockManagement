@@ -21,6 +21,19 @@
         <br>
         <input type="submit" value="Login"/>
         </form>
+        <%
+         String color = "";
+         if(request.getAttribute("message")!=null){
+            if(request.getAttribute("message") == "Registered"){
+                color = "green";
+            }
+            if(request.getAttribute("message") == "Invalid ID or password"){
+                color = "red";
+            }
+        %>
+        <b style="color: <%=color%>"><%=request.getAttribute("message")%></b>
+        <%}%>
+        <br>
         <a href="register.jsp">Register Here</a>
     </body>
 </html>

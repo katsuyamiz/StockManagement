@@ -6,19 +6,19 @@
 package api;
 
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 /**
  *
  * @author kmiz
  */
-public class UpdateServlet extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,39 +30,44 @@ public class UpdateServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException{
         response.setContentType("text/html;charset=UTF-8");
+        String msg = "Registered";
+        String destination = "register.jsp";
         Functions functions = new Functions();
-        String msg = "Error";
-        String destination;
-        String id = request.getParameter("id2Edit2");
-        String name = request.getParameter("name2Edit2");
-        String brand = request.getParameter("brand2Edit2");
-        String price = request.getParameter("price2Edit2");
-        if(id.isEmpty() ||id == null ||
-                name.isEmpty() ||name == null ||
-                brand.isEmpty() || brand == null || 
-                    price.isEmpty() || price == null || !functions.isNumeric(price)){
-                    destination = "edit.jsp";
-            Products products = new Products(id,name,brand,price);
-            request.setAttribute("products", products);
+        String id = request.getParameter("id2Reg");
+        String password = request.getParameter("pass2Reg");
+        String lName = request.getParameter("l2Reg");
+        String fName = request.getParameter("f2Reg");
+        
+       try{
+           if(!functions.registerValidate(id)){
+            msg = "The ID is already taken";
             request.setAttribute("message", msg);
             RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
             dispatcher.forward(request, response);
-        }else{
-        destination = "index.jsp";
-        msg = "Updated";
-        try{
-            functions.update(id, name, brand, price);
-        }catch(SQLException | ClassNotFoundException e){
-            throw new ServletException(e);
-        }finally{
+            }
+           else if(id == null || id.isEmpty()||
+                   password == null || password.isEmpty()||
+                   lName == null || lName.isEmpty()||
+                   fName == null || fName.isEmpty()){
+            msg = "Fill in all forms";
             request.setAttribute("message", msg);
             RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
             dispatcher.forward(request, response);
-        }
-       }
+           }
+           else{
+            destination = "login.jsp";
+            request.setAttribute("message", msg);
+            functions.register(id, password, lName, fName);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+            dispatcher.forward(request, response);
+            /* TODO output your page here. You may use following sample code. */
+            }
+       }catch(SQLException | ClassNotFoundException e){
+                throw new ServletException(e);}
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

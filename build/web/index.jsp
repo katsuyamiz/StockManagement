@@ -101,8 +101,8 @@
             <input id="prodName" name="prodName" type="text" placeholder="Name of the product" value="<%=nameDef%>"/>
             <label for="prodBrand">Brand</label>
             <input id="prodBrand" name="prodBrand" type="text" placeholder="Brand name" value="<%=brandDef%>"/>
-            <label for="prodPrice">Price</label>
-            <input id="prodPrice" name="prodPrice" type="text" placeholder="Price" value="<%=priceDef%>"/>
+            <label for="prodPrice">Quantity</label>
+            <input id="prodPrice" name="prodPrice" type="text" placeholder="Quantity" value="<%=priceDef%>"/>
             <input class="btn" id="btnC"type="submit" value="Register"/>
             </form>
         </div>
@@ -112,7 +112,7 @@
         <td id="tbc"><b><i>ID</i></b></td>
         <td id="tbc"><b><i>NAME</i></b></td>
         <td id="tbc"><b><i>BRAND</i></b></td>
-        <td id="tbc"><b><i>PRICE</i></b></td>
+        <td id="tbc"><b><i>Quantity</i></b></td>
     </tr>
         <%
             try{
@@ -156,22 +156,17 @@
                 ;
                }else{
                     if(request.getAttribute("message") == "Inserted"){
-                        msg = "Inserted";
                         color = "blue";
                     }
                     if(request.getAttribute("message") == "Updated"){
-                        msg = "Updated";
                         color = "green";
                     }                    
                     if(request.getAttribute("message") == "Error"){
-                        msg = "Error";
                         color = "red";
                     }%>
                 
-                <b style="color:<%=color%>"><%=msg%></b>
-                <%
-               }
-            %>
+                <b style="color:<%=color%>"><%=request.getAttribute("message")%></b>
+                <%}%>
     </body>
     
 <!--    <script type="text/javascript">

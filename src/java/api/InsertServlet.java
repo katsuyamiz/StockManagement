@@ -39,6 +39,7 @@ public class InsertServlet extends HttpServlet {
             throws ServletException, IOException {
                 response.setContentType("text/html;charset=UTF-8");
             /* TODO output your page here. You may use following sample code. */
+            Functions functions = new Functions();
             String msg = "Error";
             String destination = "index.jsp";
             
@@ -48,15 +49,13 @@ public class InsertServlet extends HttpServlet {
             String brand = request.getParameter("prodBrand");
         if(name==null || name.isEmpty() || 
                 price==null || price.isEmpty() ||
-                brand==null || brand.isEmpty()){
+                brand==null || brand.isEmpty() || !functions.isNumeric(price)){
             request.setAttribute("message", msg);
             Products products = new Products(id, name, brand, price);
             request.setAttribute("products", products);
             RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
             dispatcher.forward(request, response);
         }else{
-
-            Functions functions = new Functions();
           try{
               functions.insert(id, name, brand, price);
               msg = "Inserted";  
