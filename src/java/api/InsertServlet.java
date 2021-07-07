@@ -41,20 +41,26 @@ public class InsertServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String msg = "Error";
             String destination = "index.jsp";
-        if(request.getParameter("prodName")==null || request.getParameter("prodName").isEmpty() || request.getParameter("prodPrice").isEmpty() || request.getParameter("prodBrand")==null || request.getParameter("prodBrand").isEmpty()){
+            
+            String id = request.getParameter(null);
+            String name = request.getParameter("prodName");
+            String price = request.getParameter("prodPrice");
+            String brand = request.getParameter("prodBrand");
+        if(name==null || name.isEmpty() || 
+                price==null || price.isEmpty() ||
+                brand==null || brand.isEmpty()){
             request.setAttribute("message", msg);
+            Products products = new Products(id, name, brand, price);
+            request.setAttribute("products", products);
             RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
             dispatcher.forward(request, response);
         }else{
-               String id = request.getParameter(null);
-               String name = request.getParameter("prodName");
-               String price = request.getParameter("prodPrice");
-               String brand = request.getParameter("prodBrand");
+
             Functions functions = new Functions();
           try{
-              functions.insert(id, name, price, brand);
+              functions.insert(id, name, brand, price);
               msg = "Inserted";  
-                request.setAttribute("message", msg);
+            request.setAttribute("message", msg);
             RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
             dispatcher.forward(request, response);
 

@@ -34,7 +34,7 @@ public class Functions {
             return user;
         }
     
-    public void insert(String id, String name, String price, String brand) throws SQLException, ClassNotFoundException{
+    public void insert(String id, String name, String brand, String price) throws SQLException, ClassNotFoundException{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:8889/dbs","kmiz","12345");
             String sql = "INSERT INTO products(prodId, prodName, prodPrice, prodBrand) VALUES(?,?,?,?)";
@@ -49,7 +49,7 @@ public class Functions {
     } 
     
 
-        public void update(String id, String name, String price, String brand) throws SQLException, ClassNotFoundException{
+        public void update(String id, String name, String brand, String price) throws SQLException, ClassNotFoundException{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:8889/dbs","kmiz","12345");
             String sql = "UPDATE products SET prodName=?, prodBrand=?, prodPrice=? WHERE prodId = ?";

@@ -50,7 +50,8 @@ public class LoginServlet extends HttpServlet {
             
             if(user != null){
                 HttpSession session = request.getSession();
-                session.setAttribute("user", user.getName());
+                session.setAttribute("user", user);
+//                session.setAttribute("user", user.getName());
                 destination = "index.jsp";
             }else{
                 String msg = "Invalid ID or password";

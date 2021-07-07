@@ -4,7 +4,7 @@
     Author     : kmiz
 --%>
 
-<%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" import="java.sql.*"%>
+<%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" import="api.User,api.Products,java.sql.*"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -56,6 +56,11 @@
                 background-color: buttonhighlight;
                 background-color: lightcoral;
             }
+            #btnLO{
+                position: absolute;
+                right: 2rem;
+                font-size: 1rem;
+            }
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Index</title>
@@ -66,22 +71,38 @@
            <%
             if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
-               }
-            %>
-
-        <div id="u_name">    
-        <b><i>Hello, <%=session.getAttribute("user")%></i></b>
+               }else{
+               User user = (User)session.getAttribute("user");%>
+         <div id="u_name">    
+        <b><i>Hello, <%=user.getName()%></i></b>
+        <%}%>
+        <input id="btnLO" type="submit" value="Logout"/>
         </div>
+        
+        <%
+            String nameDef = "";
+            String brandDef ="";
+            String priceDef ="";
+            if(request.getAttribute("products")!= null){
+            Products products = (Products)request.getAttribute("products");
+            nameDef = products.getName();
+            brandDef = products.getBrand();
+            priceDef = products.getPrice();
+            }
+        %>
+            
+
+
         
         
         <div id="form_i_cntnr">
             <form action="InsertServlet" method="post">
             <label for="prodName">Name</label>
-            <input id="prodName" name="prodName" type="text" placeholder="Name of the product"/>
+            <input id="prodName" name="prodName" type="text" placeholder="Name of the product" value="<%=nameDef%>"/>
             <label for="prodBrand">Brand</label>
-            <input id="prodBrand" name="prodBrand" type="text" placeholder="Brand name"/>
+            <input id="prodBrand" name="prodBrand" type="text" placeholder="Brand name" value="<%=brandDef%>"/>
             <label for="prodPrice">Price</label>
-            <input id="prodPrice" name="prodPrice" type="text" placeholder="Price"/>
+            <input id="prodPrice" name="prodPrice" type="text" placeholder="Price" value="<%=priceDef%>"/>
             <input class="btn" id="btnC"type="submit" value="Register"/>
             </form>
         </div>
